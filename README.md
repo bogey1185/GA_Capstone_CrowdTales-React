@@ -1,68 +1,43 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# CrowdTales
 
-## Available Scripts
+CrowdTales is a web application that combines the art of storytelling and internet's unparalled ability to crowd source unique and original content. It allows users to find and contribute towards projects they enjoy. 
 
-In the project directory, you can run:
+## About the Author
 
-### `npm start`
+## Getting Started/Installation Notes/System Specifications
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This application should work on all modern web browsers. A mobile application deployment for Android and iOS devices will follow in the future.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## How to Use the Application
 
-### `npm test`
+To use the application, simply navigate to https://crowdtales.herokuapp.com/. 
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## User Stories/Base functionality
 
-### `npm run build`
+1. With or without a login, a user can navigate to CrowdTales, and click on the browse tab. User is taken to a list of all projects. 
+  * Projects can be filtered/sorted by various criteria, such as completion status (completed, in progress, in prompt), genre, type (ie: novel, short story, biography etc), name of the user that created the writing prompt, name of users who contributed to the project. 
+  * User may read any project listed.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. If user signs in, in addition to browsing current works, the user can "bookmark" a project so that it can be easily reviewed in the future, can sign up to contribute to a project, or create a writing prompt, which is the start of a new project. 
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+3. Bookmarked projects are added to the user's account. A list of bookmarked projects is contained in the user's account page.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. When a user signs up to contribute to a particular, he or she is put into a queue of collaborators. He or she is also automatically bookmarked on the project. When a user reaches the top of the queue, the user's home page will show that it is the user's turn. The user can then click a button to contribute to the story. Contributions will be of a limited length, and the user will have seven days to create and post his or her contribution.
 
-### `npm run eject`
+5. Stories have members, and membership in a story provides certain benefits. Each story contributor is given membership in the story. Members have the right to review and upvote/downvote story contributions. A voting round is started immediately after content is submitted. Members have 48 hours to review the addition, comment on it, and upvote or downvote. If the project gets 60% upvotes of all members voting, the content passes, and the next person in the queue starts work. If downvotes exceed 60%, the submitted content is deleted, and the next person in the queue gets to create content. If the vote result is in between the above margins, the author of the content gets to edit it and resubmit. 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+6. When the project creator believes a project is nearing compltion, he or she can call an ending vote. The vote passes with a simple majority. If it passes, the creator gets to draft an ending to the story. The contribution queue is purged, and the button allowing joining to the queue is locked. If the vote fails, the next person in the queue gets to contribute as normal. 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+7. Once the end vote passes, and the creator makes an ending, all members vote on the ending. It passes with a simple majority as well. If the vote passes, the project is complete. If the vote fails, the creator gets to edit the ending until the vote passes.  
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+8. Once the end vote passes, the story is automatically published into an online flipbook that may be read. 
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Stretch Features
 
-## Learn More
+1. Upon completion of a book, the creator can drag and drop photographs into the book to illustrate it. 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+2. Email notifications regarding contribution queues, and changes to books that are bookmarked.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+3. Ability to export a finished book to PDF.
 
-### Code Splitting
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
