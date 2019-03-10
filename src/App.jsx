@@ -22,6 +22,7 @@ class App extends Component {
     this.state = {
       userid: '',
       username: '', 
+      userStories: [],
       errorMsg: '',
     }
   }
@@ -134,17 +135,56 @@ class App extends Component {
 
     //------------------------------//
     //                              //  
-    //    Handle Create             //
+    //    Handle Create Story       //
     //                              //
     //------------------------------//
 
   handleCreate = async (args, e) => {
     e.preventDefault();
     try {
-      console.log(args);
-      console.log('HITTING CREATE');
+      // create object for creation query
+      const newStory = {
+        user_id: args.userid,
+        title: args.title,
+        genre: args.genre, 
+        text: args.text
+      }
+      const createStoryRequest = await fetch(`http://localhost:8000/api/v1/stories`, {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify(newStory),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      //throw error if create failed
+      if(!createStoryRequest.ok) {
+        throw Error(createStoryRequest.statusText)
+      }
+
+      //recieve response from server and parse from json
+      const parsedCreateRequest = await createStoryRequest.json();
+
+      // if create successful, return to home page
+      if (createStoryRequest.status === 200) {
+        //add returned story object to state in addition to whatever was there
+        const newStoryList = [...this.state.userStories, parsedCreateRequest];
+
+        this.setState({
+          ...this.state,
+          userStories: newStoryList
+        })
+        //redirect to homepage
+        history.push('/');
+      } else {
+        //if create unsuccessful, notify
+        this.setState({
+          errorMsg: 'Create story failed. Try again.'
+        })
+      }  
       
     } catch (err) {
+      console.log(err);
       return(err);
     }
   }
@@ -157,9 +197,8 @@ class App extends Component {
 
     // with handlenav, I can create a faux link on any page,
     // call it with an onclick event, and then redirect to any page using 
-    // history.push. This gives me access to app state when redirecting. 
-    // I also added an optional 2nd arg that allows me to change app state 
-    // before I redirect!
+    // history.push. This also gives me access to app state when redirecting. 
+    // Further with optional 2nd arg I can change app state before I redirect!
   handleNav = (arg1, arg2) => {
     if (arg2) {
       this.setState(arg2)

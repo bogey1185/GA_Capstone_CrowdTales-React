@@ -14,10 +14,7 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    this.setState({
-      userid: this.props.state.userid,
-      username: this.props.state.username
-    })
+    this.setState(this.props.state)
   }
 
 
