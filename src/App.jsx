@@ -5,6 +5,7 @@ import Register from './Register';
 import Login from './Login';
 import Home from './Home';
 import Create from './CreateStory';
+import Header from './Header';
 import history from './history';
 
 const My404 = () => {
@@ -277,6 +278,10 @@ class App extends Component {
     console.log(this.state, 'THIS IS STATE');
     return (
       <div className="App">
+        <div className="header">
+          <Header />
+        </div>
+        <br /><br /><br /><br /><br />
         <main>
           <Switch>
             <Route exact path="/" render={() => <Home state={this.state} handleNav={this.handleNav}/>} />
