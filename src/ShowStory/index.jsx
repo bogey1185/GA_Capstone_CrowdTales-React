@@ -12,6 +12,7 @@ class ShowStory extends Component {
       text: '',
       errorMsg: '',
       storyQueue: [],
+      instantStoryQueue: [],
       contrib: null
     }
   }
@@ -22,27 +23,9 @@ class ShowStory extends Component {
 
   componentDidMount() {
     this.checkQueue();
+    //makes a queue list for this specific 
+    this.genInstantStoryQueue(this.state.storyQueue.storyqueues);
   }
-
-  // getStoryMemberships = () => {
-  //   // gather membership, content, comment, bookmark, storyqueue
-  // }
-
-  // getStoryContent = () => {
-
-  // }
-
-  // getStoryComments = () => {
-
-  // }
-
-  // getStoryVotes = () => {
-
-  // }
-
-  // getStoryBookmarks = () => {
-
-  // }
 
   checkQueue = () => {
     let queue = this.state.storyQueue.storyqueues;
@@ -54,6 +37,15 @@ class ShowStory extends Component {
         })
       }
     }
+  }
+
+  genInstantStoryQueue = (queue) => {
+    const newQueue = queue.filter(q => q.story_id === this.state.currentStory.id);
+    console.log(newQueue, 'THIS IS NEW QUEUE');
+    this.setState({
+      ...this.state,
+      instantStoryQueue: newQueue
+    })
   }
 
   handleContribute = async () => {
@@ -80,6 +72,44 @@ class ShowStory extends Component {
         const newstoryQueue = this.state.storyQueue.storyqueues;
         newstoryQueue.push(parsedRequest);
         this.setState({...this.state, contrib: true});
+        this.addMembership();
+
+      } else {
+        this.setState({
+          errorMsg: 'Request to server failed.'
+        })
+      }  
+    } catch (err) {
+      console.log(err);
+      return(err);
+    }
+  }
+
+  addMembership = async () => {
+    try {
+      //post request to memberships
+
+      const storyQueueRequest = await fetch(`http://localhost:8000/api/v1/memberships`, {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify({user_id: this.state.userid, story_id: this.state.currentStory.id}),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      //throw error if create failed
+      if(!storyQueueRequest.ok) {
+        throw Error(storyQueueRequest.statusText)
+      }
+      //recieve response from server and parse from json
+      const parsedRequest = await storyQueueRequest.json();
+      // if create successful, sort them by status and add to local state
+      if (storyQueueRequest.status === 200) {
+
+        const newMembership = this.state.memberships.memberships;
+        newMembership.push(parsedRequest);
+        this.setState({...this.state, memberships: newMembership});
+        this.genInstantStoryQueue(this.state.storyQueue.storyqueues);
 
       } else {
         this.setState({
