@@ -9,8 +9,6 @@ class ShowStory extends Component {
     this.state = {
       userid: '',
       username: '',
-      title: '',
-      genre: '',
       text: '',
       errorMsg: ''
     }
@@ -49,7 +47,7 @@ class ShowStory extends Component {
           <div className="container-bottom">  
             <div className="container-left">
               <div className="titlebox">
-                  <p>TITLE: <b>{details.title}</b></p>
+                  <p><b>{details.title}</b></p>
               </div>
               <div className="promptbox">
                 <p>PROMPT: <b>{details.text}</b></p>
@@ -62,8 +60,12 @@ class ShowStory extends Component {
                   <p>{details.status}</p>
                 </div>
                 <div className="showbar">
-                  {details.status === 'in progress' ? <p><b>Current Writer:</b></p> : null}
-                  {details.status === 'in progress' ? <p>{details.currentContrib}</p> : null}
+                  {details.status === 'in progress' || details.status === 'content vote'
+                    || details.status === 'end vote' || details.status === 'publish vote' ? <p><b>Current Writer:</b></p> : null}
+                  {details.status === 'in progress' || details.status === 'content vote'
+                    || details.status === 'end vote' || details.status === 'publish vote' ? <p>{details.currentContrib}</p> : null}
+                  {details.status === 'completed' ? <p><b>Publish</b></p> : null}
+
                 </div>
                 <div className="showbar">
                   <p><b>Contribute</b></p>
@@ -72,9 +74,11 @@ class ShowStory extends Component {
                   <p><b>Bookmark</b></p>
                 </div>
               </div>
-              
             </div>
           </div>
+
+
+
         </div>
       </div>
     )

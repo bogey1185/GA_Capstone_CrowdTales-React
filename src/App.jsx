@@ -229,7 +229,8 @@ class App extends Component {
         parsedStoryRequest.stories.forEach(story => {
           if (story.status === 'in prompt') {
             promptStories.push(story)
-          } else if (story.status === 'in progress') {
+          } else if (story.status === 'in progress' || story.status === 'content vote' || 
+            story.status === 'end vote' || story.status === 'publish vote') {
             progressStories.push(story) 
           } else {
             completeStories.push(story)
