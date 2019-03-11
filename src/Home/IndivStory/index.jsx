@@ -5,17 +5,18 @@ import './index.css'
 
 const IndivStory = (props) => {
 
-  const date = new Date(props.story.date)
+  console.log(props.story, 'INDIVSTORY PROPS');
 
+  const date = new Date(props.story.date)
   const newdate = date.toLocaleDateString();
 
   return (
     <div>
       <div className="storyContainer">
         <div className="container-top">
-          <p>By: {props.story.user_id} - Posted: {newdate}</p>
+          <p>By: {props.story.username} - Posted: {newdate}</p>
         </div>
-        <div className="container-bottom">  
+        <div className="container-bottom" onClick={props.handleNav.bind(null, '/story', {currentStory: props.story})}>  
           <div className="titlebox">
               <p>{props.story.title}</p>
           </div>

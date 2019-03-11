@@ -11,7 +11,7 @@ const Home = (props) => {
       list.map((story) => {
         return ( 
           <div key={story.id}>
-            <IndivStory story={story}/>
+            <IndivStory story={story} handleNav={props.handleNav}/>
           </div>
         )
       })

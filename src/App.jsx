@@ -5,6 +5,7 @@ import Register from './Register';
 import Login from './Login';
 import Home from './Home';
 import Create from './CreateStory';
+import ShowStory from './ShowStory';
 import Header from './Header';
 import history from './history';
 
@@ -170,6 +171,8 @@ class App extends Component {
       //recieve response from server and parse from json
       const parsedCreateRequest = await createStoryRequest.json();
 
+      parsedCreateRequest['username'] = this.state.username;
+
       // if create successful, return to home page
       if (createStoryRequest.status === 200) {
         //add returned story object to state in addition to whatever was there
@@ -288,6 +291,7 @@ class App extends Component {
             <Route exact path="/register" render={() => <Register state={this.state} handleRegister={this.handleRegister}/>} />
             <Route exact path="/login" render={() => <Login state={this.state} handleLogin={this.handleLogin}/>} />
             <Route exact path="/create" render={() => <Create state={this.state} handleCreate={this.handleCreate}/>} />
+            <Route exact path="/story" render={() => <ShowStory state={this.state} handleNav={this.handleNav}/>} />
             <Route component={ My404 } />
           </Switch>
         </main>

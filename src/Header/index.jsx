@@ -13,7 +13,7 @@ const Header = (props) => {
         <div className="navlink" onClick={props.handleNav.bind(null, '/', null)}>Home</div>
         <div className="navlink" onClick={props.handleNav.bind(null, '/create', null)}>Create Story</div>
         <div className="navlink" onClick={props.handleNav.bind(null, '/login', null)}>Login</div>
-        <div id="end" className="navlink" onClick={props.handleNav.bind(null, '/register', null)}>Register</div>
+        <div className="navlink" onClick={props.handleNav.bind(null, '/register', null)}>Register</div>
       </div>
     </div>
   )
