@@ -279,14 +279,14 @@ class App extends Component {
     return (
       <div className="App">
         <div className="header">
-          <Header />
+          <Header state={this.state} handleNav={this.handleNav}/>
         </div>
         <br /><br /><br /><br /><br />
         <main>
           <Switch>
             <Route exact path="/" render={() => <Home state={this.state} handleNav={this.handleNav}/>} />
-            <Route exact path="/register" render={() => <Register handleRegister={this.handleRegister}/>} />
-            <Route exact path="/login" render={() => <Login handleLogin={this.handleLogin}/>} />
+            <Route exact path="/register" render={() => <Register state={this.state} handleRegister={this.handleRegister}/>} />
+            <Route exact path="/login" render={() => <Login state={this.state} handleLogin={this.handleLogin}/>} />
             <Route exact path="/create" render={() => <Create state={this.state} handleCreate={this.handleCreate}/>} />
             <Route component={ My404 } />
           </Switch>

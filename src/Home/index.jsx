@@ -24,8 +24,6 @@ const Home = (props) => {
 
   return (
     <div>
-      <h3>{props.state.username}'s Homepage</h3>
-      <div className="linkbox"><h4 className="link" onClick={props.handleNav.bind(null, '/create', null)}>Go To Create</h4></div>
       <div className="storylist">
         <h1>New Stories</h1>
           {prompts}

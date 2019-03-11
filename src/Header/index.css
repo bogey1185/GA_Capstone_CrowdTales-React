@@ -2,22 +2,41 @@
   height: 100%;
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-  padding-right: 20px;
   font-family: 'Noto Serif JP', serif;
 }
 
+.navbar {
+  display: flex;
+  padding: 0 10px;
+  background-color: rgb(0, 121, 211);
+}
+
 .navlink {
-  margin: 3px;
-  padding: 0 10px 5px 10px;
-  border: 1px solid rgb(0, 121, 211);
-  font-size: 20px;
-  border-radius: 5px;
+  /*margin: 3px;*/
+  padding: 0 10px 0 10px;
+  border-left: 1px solid white;
+  height: 10vh;
+  line-height: 10vh;
+  font-size: 1.5vw;
+  /*border-radius: 5px;*/
   cursor: pointer;
+  background-color: rgb(0, 121, 211);
+  color: white;
+}
+
+#end {
+  border-right: 1px solid white;
 }
 
 .navlink:hover {
-  background-color: rgb(0, 121, 211);
-  color: white;
+  background-color: white;
+  color: black;
+}
+
+.header h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3em;
+  margin: 10px 0 0 0;
 }
