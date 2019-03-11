@@ -1,0 +1,88 @@
+.outer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+}
+
+.storybox {
+  min-height: 20vh;
+  width: 60vw;
+  min-width: 615px;
+  background-color: white;
+  padding: 7px;
+  margin: 0 5px 10px 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.container-top {
+  height: 3vh;
+  border-bottom: 1px solid rgb(219,224,229);
+  font-family: 'Noto Serif JP', serif;
+  display: flex;
+  justify-content: space-between;
+}
+
+.container-top p {
+  font-size: .7em;
+}
+
+.container-bottom {
+  font-family: 'Noto Serif JP', serif;
+  display: flex;
+  flex-direction: row;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.titlebox {
+  font-variant: small-caps;
+  font-size: 1.5em;
+}
+
+.promptbox {
+  text-align: justify;
+  font-size: 1.2em;
+}
+
+.container-left {
+  min-height: 20vh;
+  width: 65%;
+  padding-right: 5px;
+}
+
+.containerright {
+  padding-left: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 35%;
+}
+
+.showcontainer {
+  padding-left: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  height: 150px;
+}
+
+.showbar {
+  text-align: center;
+  height: 49%;
+  max-height: 75px;
+  width: 49%;
+  border-bottom: 1px solid rgb(219,224,229);
+  border-right: 1px solid rgb(219,224,229);
+  border-left: 1px solid rgb(219,224,229);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
