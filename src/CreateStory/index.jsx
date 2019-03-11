@@ -26,8 +26,7 @@ class CreateStory extends Component {
   }
 
   render() {
-    console.log(this.state, 'THIS IS CREATE STATE');
-    console.log(this.props, 'THIS IS CREATE PROPS');
+
     return (
       <div>
         <h3>Start a new tale:</h3>

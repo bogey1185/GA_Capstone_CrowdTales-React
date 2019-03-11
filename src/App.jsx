@@ -28,13 +28,14 @@ class App extends Component {
       promptStories: [],
       progressStories: [],
       completeStories: [],
-      errorMsg: '',
+      storyQueue: [],
+      errorMsg: ''
     }
   }
 
   componentDidMount() {
-    console.log('HITTTING');
     this.getStories();
+    this.getStoryQueues();
   }
 
     //------------------------------//
@@ -214,11 +215,9 @@ class App extends Component {
       if(!storyRequest.ok) {
         throw Error(storyRequest.statusText)
       }
-      console.log(storyRequest, 'THIS IS STORY REQUEST');
       //recieve response from server and parse from json
       const parsedStoryRequest = await storyRequest.json();
 
-      console.log(parsedStoryRequest, 'THIS IS parsedSTORY REQUEST');
       // if create successful, sort them by status and add to local state
       if (storyRequest.status === 200) {
 
@@ -258,6 +257,49 @@ class App extends Component {
 
     //------------------------------//
     //                              //  
+    //    Get all story queues      //
+    //                              //
+    //------------------------------//
+
+  getStoryQueues = async () => {
+    // get story queue. if user is in it, disable queue button
+    try {
+      //get all people queued
+      const request = await fetch(`http://localhost:8000/api/v1/storyqueues`);
+      //throw error if create failed
+      if(!request.ok) {
+        throw Error(request.statusText)
+      }
+      //recieve response from server and parse from json
+      const parsedRequest = await request.json();
+      // if create successful, sort them by status and add to local state
+      if (request.status === 200) {
+        this.setState({
+          ...this.state,
+          storyQueue: parsedRequest
+        })
+
+      } else {
+        this.setState({
+          errorMsg: 'Request to server failed.'
+        })
+      }  
+    } catch (err) {
+      console.log(err);
+      return(err);
+    }
+  }
+
+  addContributor = async () => {
+    //when addContributor is called it should: 
+    //1. add user as a member
+    //2. add user to story queue
+    //3. start clock for contribution if there isnt one alread goingsa
+    //4. 
+  }
+
+    //------------------------------//
+    //                              //  
     //    Handle Nav                //
     //                              //
     //------------------------------//
@@ -278,8 +320,7 @@ class App extends Component {
   //--------------------------------------------//
 
   render() {
-    console.log(this.props, 'THIS IS PROPS');
-    console.log(this.state, 'THIS IS STATE');
+
     return (
       <div className="App">
         <div className="header">
@@ -292,7 +333,7 @@ class App extends Component {
             <Route exact path="/register" render={() => <Register state={this.state} handleRegister={this.handleRegister}/>} />
             <Route exact path="/login" render={() => <Login state={this.state} handleLogin={this.handleLogin}/>} />
             <Route exact path="/create" render={() => <Create state={this.state} handleCreate={this.handleCreate}/>} />
-            <Route exact path="/story" render={() => <ShowStory state={this.state} handleNav={this.handleNav}/>} />
+            <Route exact path="/story" render={() => <ShowStory state={this.state} handleNav={this.handleNav} addContributor={this.addContributor}/>} />
             <Route component={ My404 } />
           </Switch>
         </main>

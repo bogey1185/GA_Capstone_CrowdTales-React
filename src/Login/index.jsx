@@ -19,8 +19,6 @@ class LoginUser extends Component {
   }
 
   render() {
-    console.log(this.state, 'THIS IS LOGIN STATE');
-    console.log(this.props, 'THIS IS LOGIN PROPS');
     return (
       <div>
         <h3>Please sign in:</h3>

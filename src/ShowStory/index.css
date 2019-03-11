@@ -53,7 +53,7 @@ p {
 
 .container-left {
   min-height: 20vh;
-  width: 65%;
+  width: 58%;
   padding-right: 5px;
 }
 
@@ -62,7 +62,7 @@ p {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 35%;
+  width: 42%;
 }
 
 .showcontainer {
@@ -78,6 +78,7 @@ p {
   height: 49%;
   max-height: 75px;
   width: 49%;
+  min-width: 120px;
   border-bottom: 1px solid rgb(219,224,229);
   border-right: 1px solid rgb(219,224,229);
   border-left: 1px solid rgb(219,224,229);
@@ -85,4 +86,13 @@ p {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+#contrib {
+  background-color: green;
+}
+
+#nocontrib {
+  background-color: red;
+  cursor: pointer;
 }

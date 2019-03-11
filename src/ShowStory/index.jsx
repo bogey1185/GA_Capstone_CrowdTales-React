@@ -10,12 +10,86 @@ class ShowStory extends Component {
       userid: '',
       username: '',
       text: '',
-      errorMsg: ''
+      errorMsg: '',
+      storyQueue: [],
+      contrib: null
     }
   }
 
   componentWillMount() {
     this.setState(this.props.state)
+  }
+
+  componentDidMount() {
+    this.checkQueue();
+  }
+
+  // getStoryMemberships = () => {
+  //   // gather membership, content, comment, bookmark, storyqueue
+  // }
+
+  // getStoryContent = () => {
+
+  // }
+
+  // getStoryComments = () => {
+
+  // }
+
+  // getStoryVotes = () => {
+
+  // }
+
+  // getStoryBookmarks = () => {
+
+  // }
+
+  checkQueue = () => {
+    let queue = this.state.storyQueue.storyqueues;
+    for (let i = 0; i < queue.length; i++) {
+      if (queue[i].user_id === this.state.userid && queue[i].story_id === this.state.currentStory.id){
+        this.setState({
+          ...this.state, 
+          contrib: true
+        })
+      }
+    }
+  }
+
+  handleContribute = async () => {
+    try {
+      //post request to story queues
+
+      const storyQueueRequest = await fetch(`http://localhost:8000/api/v1/storyqueues`, {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify({user_id: this.state.userid, story_id: this.state.currentStory.id}),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      //throw error if create failed
+      if(!storyQueueRequest.ok) {
+        throw Error(storyQueueRequest.statusText)
+      }
+      //recieve response from server and parse from json
+      const parsedRequest = await storyQueueRequest.json();
+      // if create successful, sort them by status and add to local state
+      if (storyQueueRequest.status === 200) {
+
+        const newstoryQueue = this.state.storyQueue.storyqueues;
+        newstoryQueue.push(parsedRequest);
+        this.setState({...this.state, contrib: true});
+
+      } else {
+        this.setState({
+          errorMsg: 'Request to server failed.'
+        })
+      }  
+    } catch (err) {
+      console.log(err);
+      return(err);
+    }
   }
 
   handleChange = (e) => {
@@ -25,8 +99,8 @@ class ShowStory extends Component {
   }
 
   render() {
-    console.log(this.state, 'THIS IS Show STATE');
-    console.log(this.props, 'THIS IS Show PROPS');
+    console.log(`here is this.state in render in ShowStory()`);
+    console.log(this.state);
 
     const date = new Date(this.state.currentStory.date)
     const newdate = date.toLocaleDateString();
@@ -67,9 +141,19 @@ class ShowStory extends Component {
                   {details.status === 'completed' ? <p><b>Publish</b></p> : null}
 
                 </div>
-                <div className="showbar">
-                  <p><b>Contribute</b></p>
-                </div>
+                {this.state.userid && this.state.contrib ? 
+                  <div 
+                    className="showbar" 
+                    id="contrib">
+                      <p><b>&#x2713; Contributing</b></p>
+                  </div> : 
+                  <div 
+                    className="showbar" 
+                    id="nocontrib"
+                    onClick={this.handleContribute}>
+                      <p><b>Contribute</b></p>
+                  </div>
+                }
                 <div className="showbar">
                   <p><b>Bookmark</b></p>
                 </div>

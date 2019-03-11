@@ -21,8 +21,7 @@ class RegisterUser extends Component {
   }
 
   render() {
-    console.log(this.state, 'THIS IS REGISTER STATE');
-    console.log(this.props, 'THIS IS REGISTER PROPS');
+
     return (
       <div>
         <h3>Please sign up:</h3>
