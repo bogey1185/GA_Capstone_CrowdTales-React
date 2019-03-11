@@ -14,3 +14,13 @@
 .linkbox:hover{
   background-color: black;
 }
+
+h3 {
+  margin: 0;
+}
+
+.storylist {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

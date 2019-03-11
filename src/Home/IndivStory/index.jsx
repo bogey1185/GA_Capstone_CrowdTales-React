@@ -8,20 +8,15 @@ const IndivStory = (props) => {
   return (
     <div>
       <div className="storyContainer">
-        <div className="container-left">
+        <div className="container-top">
+          <p>By: {props.story.user_id} - {props.story.date}</p>
+        </div>
+        <div className="container-bottom">  
           <div className="titlebox">
-            <p>{props.story.title}</p>
+              <p>{props.story.title}</p>
           </div>
           <div className="promptbox">
             <p>{props.story.text}</p>
-          </div>
-        </div>
-        <div className="container-right">
-          <div className="authorbox">
-            <p>Created by: {props.story.user_id}</p>
-          </div>
-          <div className="datebox">
-            <p>Created on: {props.story.date}</p>
           </div>
         </div>
       </div>

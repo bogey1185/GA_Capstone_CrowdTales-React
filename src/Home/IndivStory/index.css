@@ -1,0 +1,26 @@
+.storyContainer {
+  background-color: white;
+  margin: 5px 5px 0 5px;
+  width: 50vw;
+  min-width: 400px;
+}
+
+.container-top {
+  height: 3vh;
+  margin-left: 5px;
+  border-bottom: 1px solid rgb(219,224,229);
+}
+
+.container-top p {
+  font-size: .8em;
+}
+
+.container-bottom {
+  width: 100%;
+  margin-left: 5px;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
