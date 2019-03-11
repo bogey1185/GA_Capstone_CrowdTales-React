@@ -31,6 +31,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    console.log('HITTTING');
     this.getStories();
   }
 
