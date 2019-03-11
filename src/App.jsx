@@ -23,8 +23,15 @@ class App extends Component {
       userid: '',
       username: '', 
       userStories: [],
+      promptStories: [],
+      progressStories: [],
+      completeStories: [],
       errorMsg: '',
     }
+  }
+
+  componentDidMount() {
+    this.getStories();
   }
 
     //------------------------------//
@@ -74,9 +81,7 @@ class App extends Component {
         })
       }  
     } catch (err) {
-      this.setState({
-        errorMsg: err
-      })
+      console.log(err);
       return(err);
     }
   }
@@ -126,9 +131,7 @@ class App extends Component {
         })
       }  
     } catch (err) {
-      this.setState({
-        errorMsg: err
-      })
+      console.log(err);
       return(err);
     }
   }
@@ -172,7 +175,8 @@ class App extends Component {
 
         this.setState({
           ...this.state,
-          userStories: newStoryList
+          userStories: newStoryList,
+          promptStories: [...this.state.promptStories, parsedCreateRequest]
         })
         //redirect to homepage
         history.push('/');
@@ -183,6 +187,63 @@ class App extends Component {
         })
       }  
       
+    } catch (err) {
+      console.log(err);
+      return(err);
+    }
+  }
+
+    //------------------------------//
+    //                              //  
+    //    Get all stories           //
+    //                              //
+    //------------------------------//
+
+    // grab all stories in componentDidMount and add to state for use on website
+
+  getStories = async () => {
+    try {
+      //get all stories
+      const storyRequest = await fetch(`http://localhost:8000/api/v1/stories`);
+      //throw error if create failed
+      if(!storyRequest.ok) {
+        throw Error(storyRequest.statusText)
+      }
+      console.log(storyRequest, 'THIS IS STORY REQUEST');
+      //recieve response from server and parse from json
+      const parsedStoryRequest = await storyRequest.json();
+
+      console.log(parsedStoryRequest, 'THIS IS parsedSTORY REQUEST');
+      // if create successful, sort them by status and add to local state
+      if (storyRequest.status === 200) {
+
+        let promptStories = [];
+        let progressStories = [];
+        let completeStories = [];
+
+        parsedStoryRequest.stories.forEach(story => {
+          if (story.status === 'in prompt') {
+            promptStories.push(story)
+          } else if (story.status === 'in progress') {
+            progressStories.push(story) 
+          } else {
+            completeStories.push(story)
+          }
+
+        })
+
+        this.setState({
+          ...this.state,
+          promptStories: promptStories,
+          progressStories: progressStories,
+          completeStories: completeStories
+        })
+
+      } else {
+        this.setState({
+          errorMsg: 'Request to server failed.'
+        })
+      }  
     } catch (err) {
       console.log(err);
       return(err);

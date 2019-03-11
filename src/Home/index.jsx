@@ -2,33 +2,74 @@ import React, { Component } from 'react';
 import history from '../history';
 import './index.css'
 
-class Home extends Component {
-  
-  constructor() {
-    super();
-    this.state = {
-      userid: '',
-      username: '',
-      errorMsg: ''
-    }
-  }
 
-  componentWillMount() {
-    this.setState(this.props.state)
-  }
+const Home = (props) => {
 
+  console.log(props, 'THIS IS PROPs');
 
-  render() {
-    console.log(this.state, 'THIS IS HOME STATE');
-    console.log(this.props, 'THIS IS HOME PROPS');
-    return (
-      <div>
-        <h3>{this.state.username}'s Homepage</h3>
-        <div className="linkbox"><h4 className="link" onClick={this.props.handleNav.bind(null, '/create', null)}>Go To Create</h4></div>
-      </div>
+  const prompts = props.state.promptStories.map((story) => {
+    
+    return ( 
+      <li key={story.id}>
+        <ul>
+          <li>{story.user_id}</li>
+          <li>{story.title}</li>
+          <li>{story.text}</li>
+        </ul>
+      </li>
     )
-  }
+  })
+
+  const progs = props.state.progressStories.map((story) => {
+    
+    return (
+      <li key={story.id}>
+        <ul>
+          <li>{story.user_id}</li>
+          <li>{story.title}</li>
+          <li>{story.text}</li>
+        </ul>
+      </li>
+    )
+  })
+
+  const comps = props.state.completeStories.map((story) => {
+      
+    return (
+      <li key={story.id}>
+        <ul>
+          <li>{story.user_id}</li>
+          <li>{story.title}</li>
+          <li>{story.text}</li>
+        </ul>
+      </li>
+    )
+  })
+
+  return (
+    <div>
+      <h3>{props.state.username}'s Homepage</h3>
+      <div className="linkbox"><h4 className="link" onClick={props.handleNav.bind(null, '/create', null)}>Go To Create</h4></div>
+      <div>
+        <h1>New Stories</h1>
+        <ul>
+          {prompts}
+        </ul>
+        <h1>Stories in progress</h1>
+        <ul>
+          {progs}
+        </ul>
+        <h1>Completed Stories</h1>
+        <ul>
+          {comps}
+        </ul>
+      </div>
+    </div>
+  )
+
 }
+
+  
 
 
 export default Home;

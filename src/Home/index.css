@@ -9,7 +9,6 @@
 .linkbox {
   background-color: red;
   width: 5vw;
-  text-align: center;
 }
 
 .linkbox:hover{
