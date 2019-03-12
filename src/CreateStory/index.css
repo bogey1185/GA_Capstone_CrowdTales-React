@@ -1,0 +1,51 @@
+.outer-create {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.outer-create h3 {
+  font-family: 'Noto Serif JP', serif;
+}
+
+
+.inner-create {
+  display: flex;
+  background-color: white;
+  padding: 10px;
+}
+
+.inner-labels {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Noto Serif JP', serif;
+
+}
+
+.inner-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+#createbtn {
+  font-family: 'Noto Serif JP', serif;
+}
+
+#createtitle, #genre {
+  margin: 0 0 5px 10px;
+  width: 200px;
+  font-family: 'Noto Serif JP', serif;
+}
+
+#createtext {
+  margin: 0 0 5px 10px;
+  font-family: 'Noto Serif JP', serif;
+}
+
+
+
+
+
+
+
