@@ -329,8 +329,8 @@ class App extends Component {
 
   addContributor = async () => {
     //when addContributor is called it should: 
-    //1. add user as a member
-    //2. add user to story queue
+    //1. add user as a member - DONE
+    //2. add user to story queue - DONE
     //3. start clock for contribution if there isnt one alread goingsa
     //4. 
   }
@@ -372,7 +372,7 @@ class App extends Component {
             <Route exact path="/register" render={() => <Register state={this.state} handleRegister={this.handleRegister}/>} />
             <Route exact path="/login" render={() => <Login state={this.state} handleLogin={this.handleLogin}/>} />
             <Route exact path="/create" render={() => <Create state={this.state} handleCreate={this.handleCreate}/>} />
-            <Route exact path="/story" render={() => <ShowStory state={this.state} handleNav={this.handleNav} />} />
+            <Route exact path="/story" render={() => <ShowStory state={this.state} handleNav={this.handleNav} getStories={this.getStories} getStoryQueues={this.getStoryQueues}/>} />
             <Route component={ My404 } />
           </Switch>
         </main>

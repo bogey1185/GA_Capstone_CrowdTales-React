@@ -23,8 +23,9 @@ class ShowStory extends Component {
 
   componentDidMount() {
     this.checkQueue();
-    //makes a queue list for this specific 
+    //makes a queue list for this specific story 
     this.genInstantStoryQueue(this.state.storyQueue.storyqueues);
+    // this.handleContribClock();
   }
 
   checkQueue = () => {
@@ -36,16 +37,95 @@ class ShowStory extends Component {
           contrib: true
         })
       }
-    }
+    } 
   }
 
-  genInstantStoryQueue = (queue) => {
+  genInstantStoryQueue = async (queue) => {
     const newQueue = queue.filter(q => q.story_id === this.state.currentStory.id);
-    console.log(newQueue, 'THIS IS NEW QUEUE');
-    this.setState({
-      ...this.state,
-      instantStoryQueue: newQueue
-    })
+    for (let i = 0; i < newQueue.length; i++) {
+      if (newQueue[i].user_id === this.state.userid && this.state.contrib !== true) {
+        this.setState({
+          ...this.state,
+          instantStoryQueue: newQueue,
+          contrib: true
+        })
+      } else {
+        this.setState({
+          ...this.state,
+          instantStoryQueue: newQueue
+        })
+      }
+    } 
+    //if there are people in the queue, and no one is assigned to be current contrib
+    if (this.state.instantStoryQueue.length > 0 && this.state.currentStory.currentContrib === '') {
+      //update story table to reflect current contrib and delete index 0 queue
+      try {
+        //get username of next contributor
+        const getUserRequest = await fetch(`http://localhost:8000/api/v1/users/${this.state.instantStoryQueue[0].user_id}`)
+        const parsedRequest = await getUserRequest.json();
+        const contribUsername = parsedRequest.username;
+        // update object
+        const updatedStory = {
+          ...this.state.currentStory,
+          currentContrib: contribUsername,
+          status: 'in progress',
+          username: this.state.currentStory.username
+        }
+        //update the story per the above object
+        const updateRequest = await fetch(`http://localhost:8000/api/v1/stories/${this.state.currentStory.id}`, {
+          method: 'PUT',
+          credentials: 'include',
+          body: JSON.stringify(updatedStory),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        //throw error if create failed
+        if(!updateRequest.ok) {
+          throw Error(updateRequest.statusText)
+        }
+        //recieve response from server and parse from json
+        const parsedUpdateRequest = await updateRequest.json();
+        //quickly get rid of the status queue entry that is used up
+        const deleteRequest = await fetch(`http://localhost:8000/api/v1/storyqueues/${this.state.instantStoryQueue[0].id}`, {
+          method: 'DELETE',
+          credentials: 'include',
+          headers: {'Content-Type': 'application/json'}
+        })
+
+        if(!deleteRequest.ok) {
+          throw Error(updateRequest.statusText)
+        }
+        //if udpate and delete requests were successful
+        if (updateRequest.status === 200 && deleteRequest.status === 200) {
+
+          const newInstantQueue = this.state.instantStoryQueue;
+          //remove first element of instant queue
+          newInstantQueue.shift();
+          //update state with new story changes and instant queue
+          this.setState({
+            ...this.state,
+            instantStoryQueue: newInstantQueue,
+            currentStory: parsedUpdateRequest
+          })
+          this.props.getStories();
+          this.props.getStoryQueues();
+          
+
+        } else {
+          this.setState({
+            errorMsg: 'Request to server failed.'
+          })
+        }  
+      } catch (err) {
+        console.log(err);
+        return(err);
+      }
+      //update state to delete index 0 from instant queue and add current contrib
+
+      //call clock function to start timer on contrib's writing
+    }
+      
   }
 
   handleContribute = async () => {
@@ -121,6 +201,11 @@ class ShowStory extends Component {
       return(err);
     }
   }
+
+  // handleContribClock = () => {
+  //   if (this.state.instant)
+
+  // }
 
   handleChange = (e) => {
     this.setState({
