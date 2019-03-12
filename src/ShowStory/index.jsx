@@ -274,13 +274,16 @@ class ShowStory extends Component {
             </div>
           </div>
         </div>
-        <div className="createcontent">
-          <h3>Create New Content:</h3>
-          <form>
-            <textarea></textarea><br />
-            <button type="submit">Submit</button>
-          </form>
-        </div>
+        { this.state.username === this.state.currentStory.username ? 
+          <div className="createcontent">
+            <h3>Create New Content:</h3>
+            <form>
+              <textarea></textarea><br />
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+          : null
+        }
       </div>  
     )
   }
