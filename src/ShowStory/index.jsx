@@ -62,7 +62,7 @@ class ShowStory extends Component {
       contrib: contribStatus
     })
     // if there are people in the queue, and no one is assigned to be current contrib
-    if (this.state.instantStoryQueue.length > 0 && this.state.currentStory.currentContrib === '') {
+    if (this.state.instantStoryQueue.length > 0 && (this.state.currentStory.currentContrib === '' || this.state.currentStory.currentContrib === 'None')) {
       //update story table to reflect current contrib and delete index 0 queue
       try {
         //get username of next contributor
@@ -241,7 +241,7 @@ class ShowStory extends Component {
     //prepare to update state.
     //first figure out if there is another person in the queue to contribute.
     //if there isnt, next writer remains ''
-    let nextWriter = ''
+    let nextWriter = 'None';
     //if there is someone in the queue
     if (this.state.instantStoryQueue.length > 0) {
       //query to get the person's username
@@ -252,36 +252,51 @@ class ShowStory extends Component {
       nextWriter = parsedUsernameRequest.username;
     }
 
-    console.log(nextWriter, 'THIS IS NEXT WRITER');
-    //next replace currentContrib with next person in queue if any, otherwise ''
-    //make model object to do it. Will take effect when state updated.
-    // const newCurrentStory = {
-    //   ...this.state.currentStory,
+    //make model object to inject nextwriter into upcoming state update
+    const newCurrentStory = {
+      ...this.state.currentStory,
+      currentContrib: nextWriter
+    }
 
-    // }
+    //use model to update the current story object
+    const updateRequest = await fetch(`http://localhost:8000/api/v1/stories/${this.state.currentStory.id}`, {
+      method: 'PUT',
+      credentials: 'include',
+      body: JSON.stringify(newCurrentStory),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
 
-    // need to: 
-    // 1) replace currentContrib with next person in queue if any. otherwise, with ''
-    // 2) queryDB and remove index 0 from db 
-    // 3) remove index 0 from currentQueue for writers
-
-   
-
-
-
-
-
-
+    let newInstantQueue = this.state.instantStoryQueue;
+    //if there was another person in the queue, and the name of next writer is saved, query the DB to remove the person from the queue
+    if (this.state.instantStoryQueue.length > 0) {
+      const deleteRequest = await fetch(`http://localhost:8000/api/v1/storyqueues/${this.state.instantStoryQueue[0].id}`, {
+          method: 'DELETE',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+      })
+      //remove the next writer from the instant story queue as well
+      newInstantQueue.shift();
+    }
 
 
     // update state with new content. also, change to next writer
     this.setState({
-      ...this.state, 
+      // ...this.state, 
       currentContent: [...this.state.currentContent, parsedContentRequest],
-
+      currentStory: newCurrentStory,
+      instantStoryQueue: newInstantQueue,
+      contentTitle: '',
+      createtext: '',
+      contrib: null
     })
     // update content in global state as well
     this.props.getContent();
+    //reset our storyqueues as well
+    this.props.getStoryQueues();
   }
 
   getCurrentStoryContent = () => {
