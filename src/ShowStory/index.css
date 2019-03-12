@@ -96,3 +96,22 @@ p {
   background-color: red;
   cursor: pointer;
 }
+
+.createcontent {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  width: 60vw;
+  min-width: 615px;
+  padding: 7px;
+  font-family: 'Noto Serif JP', serif;
+  text-align: center;
+}
+
+.createcontent textarea {
+  font-family: 'Noto Serif JP', serif;
+  width: 98%;
+  min-height: 15em;
+}
+
+
