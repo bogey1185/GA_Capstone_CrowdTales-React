@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import history from '../history';
 import './index.css'
+import Content from '../Content';
 
 class ShowStory extends Component {
   
@@ -14,7 +15,9 @@ class ShowStory extends Component {
       storyQueue: [],
       instantStoryQueue: [],
       contrib: null, 
-      createtext: ''
+      createtext: '',
+      currentContent: [],
+      contentTitle: ''
     }
   }
 
@@ -25,8 +28,8 @@ class ShowStory extends Component {
   componentDidMount() {
     this.checkQueue();
     //makes a queue list for this specific story 
-      this.manageInstantStoryQueue(this.state.storyQueue.storyqueues);
-    // this.handleContribClock();
+    this.manageInstantStoryQueue(this.state.storyQueue.storyqueues);
+    this.getCurrentStoryContent();
   }
 
   checkQueue = () => {
@@ -201,10 +204,55 @@ class ShowStory extends Component {
     }
   }
 
-  // handleContribClock = () => {
-  //   if (this.state.instant)
+  handleContentSubmit = async (e) => {
+    e.preventDefault();
+    console.log(this.state, 'THIS IS CONTENT SUBMIT this.STATE');
 
-  // }
+    // object to submit
+    const newContent = {
+      user_id: this.state.userid,
+      username: this.state.username,
+      title: this.state.contentTitle,
+      text: this.state.createtext,
+      story_id: this.state.currentStory.id,
+    }
+
+    const newContentRequest = await fetch(`http://localhost:8000/api/v1/content`, {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify(newContent),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+    })
+
+    if(!newContentRequest.ok) {
+        throw Error(newContentRequest.statusText)
+    }
+
+    const parsedContentRequest = await newContentRequest.json();
+    console.log(parsedContentRequest, 'THIS IS THE NEW CONTENT');
+    // update state with new content
+    this.setState({
+      ...this.state, 
+      currentContent: [...this.state.currentContent, parsedContentRequest]
+    })
+    // update content in state
+    this.props.getContent();
+    // //update current story content so it can show on page
+    // this.getCurrentStoryContent();
+
+  }
+
+  getCurrentStoryContent = () => {
+    console.log('updating current story content');
+    const currentStoryContent = this.state.allContent.content.filter(content => content.story_id === this.state.currentStory.id);
+    console.log('this is currentstorycontent');
+    this.setState({
+      ...this.state,
+      currentContent: currentStoryContent
+    })
+  } 
 
   handleChange = (e) => {
     this.setState({
@@ -219,6 +267,8 @@ class ShowStory extends Component {
     const date = new Date(this.state.currentStory.date)
     const newdate = date.toLocaleDateString();
     const details = this.state.currentStory;
+
+    const contentList = this.state.currentContent.map((content, i) => <Content key={i} content={content} />);
 
     return (
 
@@ -275,16 +325,19 @@ class ShowStory extends Component {
             </div>
           </div>
         </div>
-        { this.state.username === this.state.currentStory.username ? 
+        { this.state.username !== '' && this.state.username === this.state.currentStory.currentContrib ? 
           <div className="createcontent">
             <h3>Create New Content:</h3>
-            <form>
+            <form onSubmit={this.handleContentSubmit}>
+              <label>Chapter Title: </label>
+              <input id="contentTitle" type="text" name="contentTitle" value={this.state.contentTitle} onChange={this.handleChange}/><br />
               <textarea name="createtext" value={this.state.createtext} onChange={this.handleChange}></textarea><br />
               <button type="submit">Submit</button>
             </form>
           </div>
           : null
         }
+        { contentList }
 
       </div>  
     )

@@ -1,22 +1,22 @@
-.storyContainer {
+.contentContainer {
   background-color: white;
-  margin: 0 5px 10px 5px;
-  width: 50vw;
-  min-width: 400px;
+  margin: 10px 5px 10px 5px;
+  width: 60vw;
+  min-width: 615px;
   padding: 75px;
 }
 
-.containertop {
+.contentcontainertop {
   height: 3vh;
   border-bottom: 1px solid rgb(219,224,229);
   font-family: 'Noto Serif JP', serif;
 }
 
-.containertop p {
+.contentcontainertop p {
   font-size: .7em;
 }
 
-.containerbot {
+.contentcontainerbot {
   font-family: 'Noto Serif JP', serif;
   font-size: 1.2em;
   cursor: pointer;
@@ -29,11 +29,10 @@ p {
   padding: 0;
 }
 
-.title-box {
+.content-title-box {
   font-variant: small-caps;
-  text-decoration: underline;
 }
 
-.prompt-box {
+.content-text-box {
   text-align: justify;
 }

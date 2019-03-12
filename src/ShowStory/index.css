@@ -11,7 +11,7 @@
   width: 60vw;
   min-width: 615px;
   background-color: white;
-  padding: 7px;
+  padding: 75px;
   margin: 0 5px 10px 5px;
   display: flex;
   flex-direction: column;
@@ -103,8 +103,11 @@ p {
   flex-direction: column;
   width: 60vw;
   min-width: 615px;
-  padding: 7px;
+  padding: 75px;
   font-family: 'Noto Serif JP', serif;
+}
+
+.createcontent h3 {
   text-align: center;
 }
 
@@ -112,6 +115,16 @@ p {
   font-family: 'Noto Serif JP', serif;
   width: 98%;
   min-height: 15em;
+  font-size: 1.2em;
 }
+
+.createcontent input {
+  font-family: 'Noto Serif JP', serif;
+  text-align: left;
+  width: 20em;
+  font-size: 1.2em;
+}
+
+
 
 

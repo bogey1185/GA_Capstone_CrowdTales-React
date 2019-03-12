@@ -30,6 +30,7 @@ class App extends Component {
       completeStories: [],
       storyQueue: [],
       memberships: [],
+      allContent: [],
       errorMsg: ''
     }
   }
@@ -38,6 +39,7 @@ class App extends Component {
     this.getStories();
     this.getStoryQueues();
     this.getMemberships();
+    this.getContent();
   }
 
     //------------------------------//
@@ -364,13 +366,39 @@ class App extends Component {
       return(err);
     }
   }
+    //------------------------------//
+    //                              //  
+    //    Get all content.           //
+    //                              //
+    //------------------------------//
 
-  addContributor = async () => {
-    //when addContributor is called it should: 
-    //1. add user as a member - DONE
-    //2. add user to story queue - DONE
-    //3. start clock for contribution if there isnt one alread goingsa
-    //4. 
+  getContent = async () => {
+    // get all content
+    console.log('updating content');
+    try {
+      const requestContent = await fetch(`http://localhost:8000/api/v1/content`);
+      //throw error if create failed
+      if(!requestContent.ok) {
+        throw Error(requestContent.statusText)
+      }
+      //recieve response from server and parse from json
+      const parsedRequest = await requestContent.json();
+      // if create successful, sort them by status and add to local state
+      if (requestContent.status === 200) {
+        this.setState({
+          ...this.state,
+          allContent: parsedRequest
+        })
+
+      } else {
+        this.setState({
+          errorMsg: 'Request to server failed.'
+        })
+      }  
+    } catch (err) {
+      console.log(err);
+      return(err);
+    }
   }
 
     //------------------------------//
@@ -410,7 +438,7 @@ class App extends Component {
             <Route exact path="/register" render={() => <Register state={this.state} handleRegister={this.handleRegister}/>} />
             <Route exact path="/login" render={() => <Login state={this.state} handleLogin={this.handleLogin}/>} />
             <Route exact path="/create" render={() => <Create state={this.state} handleCreate={this.handleCreate}/>} />
-            <Route exact path="/story" render={() => <ShowStory state={this.state} handleNav={this.handleNav} getStories={this.getStories} getStoryQueues={this.getStoryQueues}/>} />
+            <Route exact path="/story" render={() => <ShowStory state={this.state} handleNav={this.handleNav} getStories={this.getStories} getStoryQueues={this.getStoryQueues} getContent={this.getContent}/>} />
             <Route component={ My404 } />
           </Switch>
         </main>
