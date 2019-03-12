@@ -36,4 +36,5 @@ p {
 
 .prompt-box {
   text-align: justify;
+  white-space: pre-wrap;
 }

@@ -49,6 +49,7 @@ p {
 .promptbox {
   text-align: justify;
   font-size: 1.2em;
+  white-space: pre-wrap;
 }
 
 .container-left {
