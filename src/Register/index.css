@@ -1,0 +1,41 @@
+.outerdiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-div {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.titlediv h3 {
+  font-family: 'Noto Serif JP', serif;
+  text-align: center;
+}
+
+.fieldsdiv label, input {
+  font-family: 'Noto Serif JP', serif;
+  margin: 10px;
+}
+
+.fieldsdiv {
+  display: flex;
+}
+
+.registerform {
+  display: flex;
+  flex-direction: column;
+}
+
+.labeldiv {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  margin: 10px;
+  font-family: 'Noto Serif JP', serif;
+}

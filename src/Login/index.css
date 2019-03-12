@@ -1,0 +1,39 @@
+.outer-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-div {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.login-div h3 {
+  font-family: 'Noto Serif JP', serif;
+}
+
+.login-div label, input {
+  font-family: 'Noto Serif JP', serif;
+  margin: 10px;
+  
+}
+
+.loginform {
+  display: flex;
+}
+
+.label-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.title-div {
+  text-align: center;
+}
+button {
+  margin: 10px;
+  font-family: 'Noto Serif JP', serif;
+}

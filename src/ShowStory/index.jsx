@@ -24,7 +24,7 @@ class ShowStory extends Component {
   componentDidMount() {
     this.checkQueue();
     //makes a queue list for this specific story 
-    this.manageInstantStoryQueue(this.state.storyQueue.storyqueues);
+      this.manageInstantStoryQueue(this.state.storyQueue.storyqueues);
     // this.handleContribClock();
   }
 
@@ -121,9 +121,7 @@ class ShowStory extends Component {
         console.log(err);
         return(err);
       }
-      //update state to delete index 0 from instant queue and add current contrib
-
-      //call clock function to start timer on contrib's writing
+    
     }
       
   }
@@ -189,7 +187,7 @@ class ShowStory extends Component {
         const newMembership = this.state.memberships.memberships;
         newMembership.push(parsedRequest);
         this.setState({...this.state, memberships: newMembership});
-        this.manageInstantStoryQueue(this.state.storyQueue.storyqueues);
+          this.manageInstantStoryQueue(this.state.storyQueue.storyqueues);
 
       } else {
         this.setState({
