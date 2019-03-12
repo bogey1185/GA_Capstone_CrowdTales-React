@@ -13,7 +13,8 @@ class ShowStory extends Component {
       errorMsg: '',
       storyQueue: [],
       instantStoryQueue: [],
-      contrib: null
+      contrib: null, 
+      createtext: ''
     }
   }
 
@@ -278,12 +279,13 @@ class ShowStory extends Component {
           <div className="createcontent">
             <h3>Create New Content:</h3>
             <form>
-              <textarea></textarea><br />
+              <textarea name="createtext" value={this.state.createtext} onChange={this.handleChange}></textarea><br />
               <button type="submit">Submit</button>
             </form>
           </div>
           : null
         }
+
       </div>  
     )
   }
