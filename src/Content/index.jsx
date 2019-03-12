@@ -4,7 +4,6 @@ import './index.css'
 
 const Content = (props) => {
 
-  console.log('this is props content', props);
   const date = new Date(props.content.date)
   const newdate = date.toLocaleDateString();
 

@@ -44,23 +44,24 @@ class ShowStory extends Component {
     } 
   }
 
-  manageInstantStoryQueue = async (queue) => {
+  manageInstantStoryQueue = async () => {
+    let queue = this.state.storyQueue.storyqueues;
     const newQueue = queue.filter(q => q.story_id === this.state.currentStory.id);
+
+    //should current user be shown as in contrib queue?
+    let contribStatus = null;
     for (let i = 0; i < newQueue.length; i++) {
-      if (newQueue[i].user_id === this.state.userid && this.state.contrib !== true) {
-        this.setState({
-          ...this.state,
-          instantStoryQueue: newQueue,
-          contrib: true
-        })
-      } else {
-        this.setState({
-          ...this.state,
-          instantStoryQueue: newQueue
-        })
+      //if we find user in the newQueue, then make status true
+      if (newQueue[i].user_id === this.state.userid) {
+        contribStatus = true;
       }
-    } 
-    //if there are people in the queue, and no one is assigned to be current contrib
+    }
+    // set state with the newqueue and the contrib status
+    this.setState({
+      instantStoryQueue: newQueue,
+      contrib: contribStatus
+    })
+    // if there are people in the queue, and no one is assigned to be current contrib
     if (this.state.instantStoryQueue.length > 0 && this.state.currentStory.currentContrib === '') {
       //update story table to reflect current contrib and delete index 0 queue
       try {
@@ -114,7 +115,6 @@ class ShowStory extends Component {
           })
           this.props.getStories();
           this.props.getStoryQueues();
-          
 
         } else {
           this.setState({
@@ -153,7 +153,16 @@ class ShowStory extends Component {
 
         const newstoryQueue = this.state.storyQueue.storyqueues;
         newstoryQueue.push(parsedRequest);
-        this.setState({...this.state, contrib: true});
+
+        const newQueue = this.state.storyQueue;
+        newQueue.storyqueues = newstoryQueue;
+
+        this.setState({
+          ...this.state, 
+          contrib: true,
+          storyQueue: newQueue
+        });
+        this.manageInstantStoryQueue(newQueue.storyqueues);
         this.addMembership();
 
       } else {
@@ -191,7 +200,6 @@ class ShowStory extends Component {
         const newMembership = this.state.memberships.memberships;
         newMembership.push(parsedRequest);
         this.setState({...this.state, memberships: newMembership});
-          this.manageInstantStoryQueue(this.state.storyQueue.storyqueues);
 
       } else {
         this.setState({
@@ -206,7 +214,6 @@ class ShowStory extends Component {
 
   handleContentSubmit = async (e) => {
     e.preventDefault();
-    console.log(this.state, 'THIS IS CONTENT SUBMIT this.STATE');
 
     // object to submit
     const newContent = {
@@ -231,25 +238,55 @@ class ShowStory extends Component {
     }
 
     const parsedContentRequest = await newContentRequest.json();
-    console.log(parsedContentRequest, 'THIS IS THE NEW CONTENT');
-    // update state with new content
+    //prepare to update state.
+    //first figure out if there is another person in the queue to contribute.
+    //if there isnt, next writer remains ''
+    let nextWriter = ''
+    //if there is someone in the queue
+    if (this.state.instantStoryQueue.length > 0) {
+      //query to get the person's username
+      const usernameRequest = await fetch(`http://localhost:8000/api/v1/users/${this.state.instantStoryQueue[0].user_id}`);
+      //parse request
+      const parsedUsernameRequest = await usernameRequest.json();
+      //assign username to nextWriter
+      nextWriter = parsedUsernameRequest.username;
+    }
+
+    console.log(nextWriter, 'THIS IS NEXT WRITER');
+    //next replace currentContrib with next person in queue if any, otherwise ''
+    //make model object to do it. Will take effect when state updated.
+    // const newCurrentStory = {
+    //   ...this.state.currentStory,
+
+    // }
+
+    // need to: 
+    // 1) replace currentContrib with next person in queue if any. otherwise, with ''
+    // 2) queryDB and remove index 0 from db 
+    // 3) remove index 0 from currentQueue for writers
+
+   
+
+
+
+
+
+
+
+
+    // update state with new content. also, change to next writer
     this.setState({
       ...this.state, 
-      currentContent: [...this.state.currentContent, parsedContentRequest]
-    })
-    // update content in state
-    this.props.getContent();
-    // //update current story content so it can show on page
-    // this.getCurrentStoryContent();
+      currentContent: [...this.state.currentContent, parsedContentRequest],
 
+    })
+    // update content in global state as well
+    this.props.getContent();
   }
 
   getCurrentStoryContent = () => {
-    console.log('updating current story content');
     const currentStoryContent = this.state.allContent.content.filter(content => content.story_id === this.state.currentStory.id);
-    console.log('this is currentstorycontent');
     this.setState({
-      ...this.state,
       currentContent: currentStoryContent
     })
   } 
