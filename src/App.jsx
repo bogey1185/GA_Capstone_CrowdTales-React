@@ -144,6 +144,44 @@ class App extends Component {
 
     //------------------------------//
     //                              //  
+    //    Handle Logout             //
+    //                              //
+    //------------------------------//
+
+  handleLogout = async (args, e) => {
+    try {
+    
+      const logoutRequest = await fetch(`http://localhost:8000/api/v1/logout`)
+      //throw error if create failed
+      if(!logoutRequest.ok) {
+        throw Error(logoutRequest.statusText)
+      }
+      //recieve response from server and parse from json
+      const parsedLogoutRequest = await logoutRequest.json();
+      // if create successful, return to login page
+      if (logoutRequest.status === 200) {
+        //add user id and username to state for further use
+        this.setState({
+          userid: '',
+          username: ''
+        })
+        //redirect to homepage
+        history.push('/');
+      } else {
+        //if create unsuccessful because username taken, update
+        //state with error message so it can render!
+        this.setState({
+          errorMsg: 'Logout failed. Please try again.'
+        })
+      }  
+    } catch (err) {
+      console.log(err);
+      return(err);
+    }
+  }
+
+    //------------------------------//
+    //                              //  
     //    Handle Create Story       //
     //                              //
     //------------------------------//
@@ -363,12 +401,12 @@ class App extends Component {
     return (
       <div className="App">
         <div className="header">
-          <Header state={this.state} handleNav={this.handleNav}/>
+          <Header state={this.state} handleNav={this.handleNav} handleLogout={this.handleLogout}/>
         </div>
         <br /><br /><br /><br /><br />
         <main>
           <Switch>
-            <Route exact path="/" render={() => <Home state={this.state} handleNav={this.handleNav}/>} />
+            <Route exact path="/" render={() => <Home state={this.state} handleNav={this.handleNav} />} />
             <Route exact path="/register" render={() => <Register state={this.state} handleRegister={this.handleRegister}/>} />
             <Route exact path="/login" render={() => <Login state={this.state} handleLogin={this.handleLogin}/>} />
             <Route exact path="/create" render={() => <Create state={this.state} handleCreate={this.handleCreate}/>} />

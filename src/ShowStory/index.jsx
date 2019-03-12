@@ -24,7 +24,7 @@ class ShowStory extends Component {
   componentDidMount() {
     this.checkQueue();
     //makes a queue list for this specific story 
-    this.genInstantStoryQueue(this.state.storyQueue.storyqueues);
+    this.manageInstantStoryQueue(this.state.storyQueue.storyqueues);
     // this.handleContribClock();
   }
 
@@ -40,7 +40,7 @@ class ShowStory extends Component {
     } 
   }
 
-  genInstantStoryQueue = async (queue) => {
+  manageInstantStoryQueue = async (queue) => {
     const newQueue = queue.filter(q => q.story_id === this.state.currentStory.id);
     for (let i = 0; i < newQueue.length; i++) {
       if (newQueue[i].user_id === this.state.userid && this.state.contrib !== true) {
@@ -189,7 +189,7 @@ class ShowStory extends Component {
         const newMembership = this.state.memberships.memberships;
         newMembership.push(parsedRequest);
         this.setState({...this.state, memberships: newMembership});
-        this.genInstantStoryQueue(this.state.storyQueue.storyqueues);
+        this.manageInstantStoryQueue(this.state.storyQueue.storyqueues);
 
       } else {
         this.setState({
