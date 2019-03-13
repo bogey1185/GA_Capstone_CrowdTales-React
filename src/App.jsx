@@ -9,6 +9,7 @@ import ShowStory from './ShowStory';
 import Header from './Header';
 import history from './history';
 
+
 const My404 = () => {
   return (
     <div>
@@ -35,7 +36,7 @@ class App extends Component {
   componentDidMount() {
     this.getStories();
   }
-
+${process.env.REACT_APP_PATH}
 
     //------------------------------//
     //                              //  
@@ -53,7 +54,7 @@ class App extends Component {
         password: args.password,
         password2: args.password2
       }
-      const createUserRequest = await fetch(`http://localhost:8000/api/v1/users`, {
+      const createUserRequest = await fetch(`${process.env.REACT_APP_PATH}/api/v1/users`, {
         method: 'POST',
         credentials: 'include',
         body: JSON.stringify(newUser),
@@ -103,7 +104,7 @@ class App extends Component {
         username: args.username,
         password: args.password
       }
-      const createUserRequest = await fetch(`http://localhost:8000/api/v1/login`, {
+      const createUserRequest = await fetch(`${process.env.REACT_APP_PATH}/api/v1/login`, {
         method: 'POST',
         credentials: 'include',
         body: JSON.stringify(user),
@@ -148,7 +149,7 @@ class App extends Component {
   handleLogout = async (args, e) => {
     try {
     
-      const logoutRequest = await fetch(`http://localhost:8000/api/v1/logout`)
+      const logoutRequest = await fetch(`${process.env.REACT_APP_PATH}/api/v1/logout`)
       //throw error if create failed
       if(!logoutRequest.ok) {
         throw Error(logoutRequest.statusText)
@@ -193,7 +194,7 @@ class App extends Component {
         genre: args.genre, 
         text: args.text
       }
-      const createStoryRequest = await fetch(`http://localhost:8000/api/v1/stories`, {
+      const createStoryRequest = await fetch(`${process.env.REACT_APP_PATH}/api/v1/stories`, {
         method: 'POST',
         credentials: 'include',
         body: JSON.stringify(newStory),
@@ -247,7 +248,7 @@ class App extends Component {
   getStories = async () => {
     try {
       //get all stories
-      const storyRequest = await fetch(`http://localhost:8000/api/v1/stories`);
+      const storyRequest = await fetch(`${process.env.REACT_APP_PATH}/api/v1/stories`);
       //throw error if create failed
       if(!storyRequest.ok) {
         throw Error(storyRequest.statusText)

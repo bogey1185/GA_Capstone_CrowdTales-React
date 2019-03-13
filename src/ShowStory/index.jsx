@@ -54,7 +54,7 @@ class ShowStory extends Component {
     // get story queue. if user is in it, disable queue button
     try {
       //get all people queued
-      const request = await fetch(`http://localhost:8000/api/v1/stories/${this.props.state.currentStoryNum}`);
+      const request = await fetch(`${process.env.REACT_APP_PATH}/api/v1/stories/${this.props.state.currentStoryNum}`);
       //throw error if create failed
       if(!request.ok) {
         throw Error(request.statusText)
@@ -88,7 +88,7 @@ class ShowStory extends Component {
     // get story queue. if user is in it, disable queue button
     try {
       //get all people queued
-      const request = await fetch(`http://localhost:8000/api/v1/storyqueues`);
+      const request = await fetch(`${process.env.REACT_APP_PATH}/api/v1/storyqueues`);
       //throw error if create failed
       if(!request.ok) {
         throw Error(request.statusText)
@@ -123,7 +123,7 @@ class ShowStory extends Component {
     // get bookmarks. if user is in it, disable queue button
     try {
       //get all people queued
-      const request = await fetch(`http://localhost:8000/api/v1/bookmarks`);
+      const request = await fetch(`${process.env.REACT_APP_PATH}/api/v1/bookmarks`);
       //throw error if create failed
       if(!request.ok) {
         throw Error(request.statusText)
@@ -169,7 +169,7 @@ class ShowStory extends Component {
     try {
 
     //query DB to create a bookmark
-      const request = await fetch(`http://localhost:8000/api/v1/bookmarks`, {
+      const request = await fetch(`${process.env.REACT_APP_PATH}/api/v1/bookmarks`, {
         method: 'POST',
         credentials: 'include',
         body: JSON.stringify({user_id: this.state.userid, story_id: this.state.currentStory.id}),
@@ -250,7 +250,7 @@ class ShowStory extends Component {
       //update story table to reflect current contrib and delete index 0 queue
       try {
         //get username of next contributor
-        const getUserRequest = await fetch(`http://localhost:8000/api/v1/users/${this.state.instantStoryQueue[0].user_id}`)
+        const getUserRequest = await fetch(`${process.env.REACT_APP_PATH}/api/v1/users/${this.state.instantStoryQueue[0].user_id}`)
         const parsedRequest = await getUserRequest.json();
         const contribUsername = parsedRequest.username;
         // update object
@@ -261,7 +261,7 @@ class ShowStory extends Component {
           username: this.state.currentStory.username
         }
         //update the story per the above object
-        const updateRequest = await fetch(`http://localhost:8000/api/v1/stories/${this.state.currentStory.id}`, {
+        const updateRequest = await fetch(`${process.env.REACT_APP_PATH}/api/v1/stories/${this.state.currentStory.id}`, {
           method: 'PUT',
           credentials: 'include',
           body: JSON.stringify(updatedStory),
@@ -276,7 +276,7 @@ class ShowStory extends Component {
         //recieve response from server and parse from json
         const parsedUpdateRequest = await updateRequest.json();
         //quickly get rid of the status queue entry that is used up
-        const deleteRequest = await fetch(`http://localhost:8000/api/v1/storyqueues/${this.state.instantStoryQueue[0].id}`, {
+        const deleteRequest = await fetch(`${process.env.REACT_APP_PATH}/api/v1/storyqueues/${this.state.instantStoryQueue[0].id}`, {
           method: 'DELETE',
           credentials: 'include',
           headers: {'Content-Type': 'application/json'}
@@ -325,7 +325,7 @@ class ShowStory extends Component {
     try {
       //post request to story queues
 
-      const storyQueueRequest = await fetch(`http://localhost:8000/api/v1/storyqueues`, {
+      const storyQueueRequest = await fetch(`${process.env.REACT_APP_PATH}/api/v1/storyqueues`, {
         method: 'POST',
         credentials: 'include',
         body: JSON.stringify({user_id: this.state.userid, story_id: this.state.currentStory.id}),
@@ -377,7 +377,7 @@ class ShowStory extends Component {
     // get story queue. if user is in it, disable queue button
     try {
       //get all memberships
-      const request = await fetch(`http://localhost:8000/api/v1/memberships`);
+      const request = await fetch(`${process.env.REACT_APP_PATH}/api/v1/memberships`);
       //throw error if create failed
       if(!request.ok) {
         throw Error(request.statusText)
@@ -406,7 +406,7 @@ class ShowStory extends Component {
     try {
       //post request to memberships
 
-      const storyQueueRequest = await fetch(`http://localhost:8000/api/v1/memberships`, {
+      const storyQueueRequest = await fetch(`${process.env.REACT_APP_PATH}/api/v1/memberships`, {
         method: 'POST',
         credentials: 'include',
         body: JSON.stringify({user_id: this.state.userid, story_id: this.state.currentStory.id}),
@@ -447,7 +447,7 @@ class ShowStory extends Component {
   getContent = async () => {
     // get all content
     try {
-      const requestContent = await fetch(`http://localhost:8000/api/v1/content`);
+      const requestContent = await fetch(`${process.env.REACT_APP_PATH}/api/v1/content`);
       //throw error if create failed
       if(!requestContent.ok) {
         throw Error(requestContent.statusText)
@@ -484,7 +484,7 @@ class ShowStory extends Component {
       story_id: this.state.currentStory.id,
     }
 
-    const newContentRequest = await fetch(`http://localhost:8000/api/v1/content`, {
+    const newContentRequest = await fetch(`${process.env.REACT_APP_PATH}/api/v1/content`, {
         method: 'POST',
         credentials: 'include',
         body: JSON.stringify(newContent),
@@ -505,7 +505,7 @@ class ShowStory extends Component {
     //if there is someone in the queue
     if (this.state.instantStoryQueue.length > 0) {
       //query to get the person's username
-      const usernameRequest = await fetch(`http://localhost:8000/api/v1/users/${this.state.instantStoryQueue[0].user_id}`);
+      const usernameRequest = await fetch(`${process.env.REACT_APP_PATH}/api/v1/users/${this.state.instantStoryQueue[0].user_id}`);
       //parse request
       const parsedUsernameRequest = await usernameRequest.json();
       //assign username to nextWriter
@@ -519,7 +519,7 @@ class ShowStory extends Component {
     }
 
     //use model to update the current story object
-    const updateRequest = await fetch(`http://localhost:8000/api/v1/stories/${this.state.currentStory.id}`, {
+    const updateRequest = await fetch(`${process.env.REACT_APP_PATH}/api/v1/stories/${this.state.currentStory.id}`, {
       method: 'PUT',
       credentials: 'include',
       body: JSON.stringify(newCurrentStory),
@@ -531,7 +531,7 @@ class ShowStory extends Component {
     let newInstantQueue = this.state.instantStoryQueue;
     //if there was another person in the queue, and the name of next writer is saved, query the DB to remove the person from the queue
     if (this.state.instantStoryQueue.length > 0) {
-      const deleteRequest = await fetch(`http://localhost:8000/api/v1/storyqueues/${this.state.instantStoryQueue[0].id}`, {
+      const deleteRequest = await fetch(`${process.env.REACT_APP_PATH}/api/v1/storyqueues/${this.state.instantStoryQueue[0].id}`, {
           method: 'DELETE',
           credentials: 'include',
           headers: {
