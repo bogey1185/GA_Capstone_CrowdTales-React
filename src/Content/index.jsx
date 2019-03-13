@@ -12,10 +12,11 @@ const Content = (props) => {
       <div className="contentContainer">
         <div className="contentcontainertop">
           <p>By: {props.content.username} - Posted: {newdate}</p>
-        </div><br />
+        </div>
         <div className="contentcontainerbot">  
           <div className="content-title-box">
               <p><b>{props.content.title}</b></p>
+              <br />
           </div>
           <div className="content-text-box">
             <p>{props.content.text}</p>
