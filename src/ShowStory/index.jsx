@@ -635,8 +635,8 @@ class ShowStory extends Component {
                   </div> : 
                   <div 
                     className="showbar" 
-                    id="nocontrib"
-                    onClick={this.handleContribute}>
+                    id={this.state.currentStory.status === 'completed' ? 'completed' : "nocontrib"}
+                    onClick={this.state.currentStory.status === 'completed' ? null : this.handleContribute}>
                       <p><b>Contribute</b></p>
                   </div>
                 }

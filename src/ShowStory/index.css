@@ -98,6 +98,10 @@ p {
   cursor: pointer;
 }
 
+#completed {
+  background-color: grey;
+}
+
 #marked {
   background-color: green;
 }
