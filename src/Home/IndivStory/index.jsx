@@ -4,7 +4,7 @@ import './index.css'
 
 
 const IndivStory = (props) => {
-  console.log(props.story, 'indiv props');
+
   const date = new Date(props.story.date)
   const newdate = date.toLocaleDateString();
 
@@ -14,7 +14,7 @@ const IndivStory = (props) => {
         <div className="containertop">
           <p>By: {props.story.username} - Posted: {newdate}</p>
         </div>
-        <div className="containerbot" onClick={props.handleNav.bind(null, '/story', {currentStory: props.story})}>  
+        <div className="containerbot" onClick={props.handleNav.bind(null, '/story', {currentStoryNum: props.story.id})}>  
           <div className="title-box">
               <p>{props.story.title}</p>
           </div>

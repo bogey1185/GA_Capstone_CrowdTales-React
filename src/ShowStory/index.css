@@ -98,6 +98,15 @@ p {
   cursor: pointer;
 }
 
+#marked {
+  background-color: green;
+}
+
+#notmarked {
+  background-color: red;
+  cursor: pointer;
+}
+
 .createcontent {
   background-color: white;
   display: flex;

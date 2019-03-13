@@ -15,35 +15,217 @@ class ShowStory extends Component {
       storyQueue: [],
       instantStoryQueue: [],
       contrib: null, 
+      marked: null,
       createtext: '',
       currentContent: [],
-      contentTitle: ''
+      contentTitle: '',
+      currentStory: [], 
+      allContent: [],
+      bookmarks: []
     }
   }
 
   componentWillMount() {
     console.log('WILL MOUNT');
+    //get current story data
+    this.getCurrentStory();
     this.setState(this.props.state);
-    this.props.getStoryQueues();
   }
 
-  componentDidMount() {
-    this.checkQueue();
-    //makes a queue list for this specific story 
-    this.manageInstantStoryQueue(this.state.storyQueue.storyqueues);
-    this.getCurrentStoryContent();
+  async componentDidMount() {
+    await this.getStoryQueues();
+    await this.getContent();
+    await this.getMemberships();
+    await this.getBookmarks();
+    await this.getCurrentStoryContent();
+    await this.checkQueue();
+    this.manageInstantStoryQueue();
+    this.manageBookmarks();
+
   }
+
+    //------------------------------//
+    //                              //  
+    //    Get all story queues      //
+    //                              //
+    //------------------------------//
+
+  getCurrentStory = async () => {
+    // get story queue. if user is in it, disable queue button
+    try {
+      //get all people queued
+      const request = await fetch(`http://localhost:8000/api/v1/stories/${this.props.state.currentStoryNum}`);
+      //throw error if create failed
+      if(!request.ok) {
+        throw Error(request.statusText)
+      }
+      //recieve response from server and parse from json
+      const parsedRequest = await request.json();
+      // if create successful, sort them by status and add to local state
+      if (request.status === 200) {
+        this.setState({
+          ...this.state,
+          currentStory: parsedRequest
+        })
+      } else {
+        this.setState({
+          errorMsg: 'Request to server failed.'
+        })
+      }  
+    } catch (err) {
+      console.log(err);
+      return(err);
+    }
+  }
+
+    //------------------------------//
+    //                              //  
+    //    Get all story queues      //
+    //                              //
+    //------------------------------//
+
+  getStoryQueues = async () => {
+    // get story queue. if user is in it, disable queue button
+    try {
+      //get all people queued
+      const request = await fetch(`http://localhost:8000/api/v1/storyqueues`);
+      //throw error if create failed
+      if(!request.ok) {
+        throw Error(request.statusText)
+      }
+      //recieve response from server and parse from json
+      const parsedRequest = await request.json();
+      // if create successful, sort them by status and add to local state
+      if (request.status === 200) {
+        this.setState({
+          ...this.state,
+          storyQueue: parsedRequest
+        })
+
+      } else {
+        this.setState({
+          errorMsg: 'Request to server failed.'
+        })
+      }  
+    } catch (err) {
+      console.log(err);
+      return(err);
+    }
+  }
+
+    //------------------------------//
+    //                              //  
+    //    manage bookmarks          //
+    //                              //
+    //------------------------------//
+
+  getBookmarks = async () => {
+    // get bookmarks. if user is in it, disable queue button
+    try {
+      //get all people queued
+      const request = await fetch(`http://localhost:8000/api/v1/bookmarks`);
+      //throw error if create failed
+      if(!request.ok) {
+        throw Error(request.statusText)
+      }
+      //recieve response from server and parse from json
+      const parsedRequest = await request.json();
+      // if create successful, sort them by status and add to local state
+      if (request.status === 200) {
+        this.setState({
+          ...this.state,
+          bookmarks: parsedRequest
+        })
+
+      } else {
+        this.setState({
+          errorMsg: 'Request to server failed.'
+        })
+      }  
+    } catch (err) {
+      console.log(err);
+      return(err);
+    }
+  }
+
+  manageBookmarks = () => {
+    const bookmarks = this.state.bookmarks.bookmarks;
+    let markStatus = null;
+    //loop through bookmarks -- if any 
+    bookmarks.forEach(mark => {
+      //if any bookmark as the current user's id and the current story's id, it is bookmarked. so change mark status to true
+      if (mark.user_id === this.state.userid && mark.story_id === this.state.currentStory.id) {
+        markStatus = true;
+      } 
+    })
+    this.setState({
+      ...this.state,
+      marked: markStatus
+    })
+  }
+
+  handleBookmark = async () => {
+
+    try {
+
+    //query DB to create a bookmark
+      const request = await fetch(`http://localhost:8000/api/v1/bookmarks`, {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify({user_id: this.state.userid, story_id: this.state.currentStory.id}),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      //throw error if create failed
+      if(!request.ok) {
+        throw Error(request.statusText)
+      }
+      //recieve response from server and parse from json
+      const parsedRequest = await request.json();
+      // if create successful, just toggle marked status to true
+      if (request.status === 200) {
+        this.setState({
+          ...this.state,
+          marked: true
+        })
+
+      } else {
+        this.setState({
+          errorMsg: 'Request to server failed.'
+        })
+      }  
+    } catch (err) {
+      console.log(err);
+      return(err);
+    }
+  }
+
+
+    //update bookmark list
+
+    //rerun managebookmark 
+  
+
+
+    //------------------------------//
+    //                              //  
+    //    Queue management          //
+    //                              //
+    //------------------------------//
 
   checkQueue = () => {
     let queue = this.state.storyQueue.storyqueues;
-    for (let i = 0; i < queue.length; i++) {
-      if (queue[i].user_id === this.state.userid && queue[i].story_id === this.state.currentStory.id){
-        this.setState({
-          ...this.state, 
-          contrib: true
-        })
-      }
-    } 
+    if (queue.length > 0) {
+      for (let i = 0; i < queue.length; i++) {
+        if (queue[i].user_id === this.state.userid && queue[i].story_id === this.state.currentStory.id){
+          this.setState({
+            ...this.state, 
+            contrib: true
+          })
+        }
+      }  
+    }
   }
 
   manageInstantStoryQueue = async () => {
@@ -132,8 +314,14 @@ class ShowStory extends Component {
       
   }
 
+    //------------------------------//
+    //                              //  
+    //    handleContribute          //
+    //                              //
+    //------------------------------//
+
   handleContribute = async () => {
-    console.log(this.state, 'handle contribute starting state');
+
     try {
       //post request to story queues
 
@@ -179,6 +367,41 @@ class ShowStory extends Component {
     }
   }
 
+    //------------------------------//
+    //                              //  
+    //    membership management     //
+    //                              //
+    //------------------------------//
+
+  getMemberships = async () => {
+    // get story queue. if user is in it, disable queue button
+    try {
+      //get all memberships
+      const request = await fetch(`http://localhost:8000/api/v1/memberships`);
+      //throw error if create failed
+      if(!request.ok) {
+        throw Error(request.statusText)
+      }
+      //recieve response from server and parse from json
+      const parsedRequest = await request.json();
+      // if create successful, sort them by status and add to local state
+      if (request.status === 200) {
+        this.setState({
+          ...this.state,
+          memberships: parsedRequest
+        })
+
+      } else {
+        this.setState({
+          errorMsg: 'Request to server failed.'
+        })
+      }  
+    } catch (err) {
+      console.log(err);
+      return(err);
+    }
+  }
+    
   addMembership = async () => {
     try {
       //post request to memberships
@@ -203,6 +426,40 @@ class ShowStory extends Component {
         const newMembership = this.state.memberships.memberships;
         newMembership.push(parsedRequest);
         this.setState({...this.state, memberships: newMembership});
+
+      } else {
+        this.setState({
+          errorMsg: 'Request to server failed.'
+        })
+      }  
+    } catch (err) {
+      console.log(err);
+      return(err);
+    }
+  }
+
+    //------------------------------//
+    //                              //  
+    //    Get all content.          //
+    //                              //
+    //------------------------------//
+
+  getContent = async () => {
+    // get all content
+    try {
+      const requestContent = await fetch(`http://localhost:8000/api/v1/content`);
+      //throw error if create failed
+      if(!requestContent.ok) {
+        throw Error(requestContent.statusText)
+      }
+      //recieve response from server and parse from json
+      const parsedRequest = await requestContent.json();
+      // if create successful, sort them by status and add to local state
+      if (requestContent.status === 200) {
+        this.setState({
+          // ...this.state,
+          allContent: parsedRequest
+        })
 
       } else {
         this.setState({
@@ -306,10 +563,10 @@ class ShowStory extends Component {
       createtext: '',
       contrib: null
     })
-    // update content in global state as well
-    this.props.getContent();
+    // update content 
+    this.getContent();
     //reset our storyqueues as well
-    this.props.getStoryQueues();
+    this.getStoryQueues();
   }
 
   getCurrentStoryContent = () => {
@@ -326,7 +583,8 @@ class ShowStory extends Component {
   }
 
   render() {
-    console.log(this.state, 'SHOW STATE');
+    console.log(this.state, 'SHOW STATE')
+    console.log(this.props, "SHOW PROPS")
 
     const date = new Date(this.state.currentStory.date)
     const newdate = date.toLocaleDateString();
@@ -382,9 +640,19 @@ class ShowStory extends Component {
                       <p><b>Contribute</b></p>
                   </div>
                 }
-                <div className="showbar">
-                  <p><b>Bookmark</b></p>
-                </div>
+                {this.state.userid && this.state.marked ? 
+                  <div 
+                    className="showbar" 
+                    id="marked">
+                      <p><b>&#x2713; Bookmarked</b></p>
+                  </div> : 
+                  <div 
+                    className="showbar" 
+                    id="notmarked"
+                    onClick={this.handleBookmark}>
+                      <p><b>Bookmark</b></p>
+                  </div>
+                }
               </div>
             </div>
           </div>
