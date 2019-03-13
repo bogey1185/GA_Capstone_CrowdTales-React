@@ -36,7 +36,6 @@ class App extends Component {
   componentDidMount() {
     this.getStories();
   }
-${process.env.REACT_APP_PATH}
 
     //------------------------------//
     //                              //  
