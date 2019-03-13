@@ -4,7 +4,7 @@ import './index.css'
 
 
 const IndivStory = (props) => {
-
+  console.log(props.story, 'indiv props');
   const date = new Date(props.story.date)
   const newdate = date.toLocaleDateString();
 

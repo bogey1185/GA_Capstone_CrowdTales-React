@@ -22,7 +22,9 @@ class ShowStory extends Component {
   }
 
   componentWillMount() {
-    this.setState(this.props.state)
+    console.log('WILL MOUNT');
+    this.setState(this.props.state);
+    this.props.getStoryQueues();
   }
 
   componentDidMount() {
@@ -131,6 +133,7 @@ class ShowStory extends Component {
   }
 
   handleContribute = async () => {
+    console.log(this.state, 'handle contribute starting state');
     try {
       //post request to story queues
 
@@ -282,13 +285,23 @@ class ShowStory extends Component {
       newInstantQueue.shift();
     }
 
+    //replace story is story list with newCurrentStory too
+    let newProgressStories = this.state.progressStories.map(story => {
+      if (story.id === newCurrentStory.id) {
+        return newCurrentStory
+      } else {
+        return story
+      }
+    })
+
 
     // update state with new content. also, change to next writer
     this.setState({
-      // ...this.state, 
+      ...this.state, 
       currentContent: [...this.state.currentContent, parsedContentRequest],
       currentStory: newCurrentStory,
       instantStoryQueue: newInstantQueue,
+      progressStories: newProgressStories,
       contentTitle: '',
       createtext: '',
       contrib: null
@@ -313,8 +326,7 @@ class ShowStory extends Component {
   }
 
   render() {
-    console.log(`here is this.state in render in ShowStory()`);
-    console.log(this.state);
+    console.log(this.state, 'SHOW STATE');
 
     const date = new Date(this.state.currentStory.date)
     const newdate = date.toLocaleDateString();

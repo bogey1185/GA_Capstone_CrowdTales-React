@@ -42,6 +42,7 @@ class App extends Component {
     this.getContent();
   }
 
+
     //------------------------------//
     //                              //  
     //    Handle Register           //
@@ -374,7 +375,6 @@ class App extends Component {
 
   getContent = async () => {
     // get all content
-    console.log('updating content');
     try {
       const requestContent = await fetch(`http://localhost:8000/api/v1/content`);
       //throw error if create failed
