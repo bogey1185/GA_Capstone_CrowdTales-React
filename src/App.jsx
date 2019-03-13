@@ -213,6 +213,16 @@ class App extends Component {
 
       // if create successful, return to home page
       if (createStoryRequest.status === 200) {
+        //creators are members, so add a membership to the DB before moving on
+        const addMemberRequest = await fetch(`${process.env.REACT_APP_PATH}/api/v1/memberships`, {
+          method: 'POST',
+          credentials: 'include',
+          body: JSON.stringify({user_id: args.userid, story_id: parsedCreateRequest.id}),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+
         //add returned story object to state in addition to whatever was there
         const newStoryList = [...this.state.userStories, parsedCreateRequest];
 

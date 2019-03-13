@@ -21,7 +21,8 @@ class ShowStory extends Component {
       contentTitle: '',
       currentStory: [], 
       allContent: [],
-      bookmarks: []
+      bookmarks: [],
+      memberships: []
     }
   }
 
@@ -354,7 +355,12 @@ class ShowStory extends Component {
           storyQueue: newQueue
         });
         this.manageInstantStoryQueue(newQueue.storyqueues);
-        this.addMembership();
+        // check if user already has membership in the story
+        const member = this.state.memberships.memberships.some(membership => membership.user_id === this.state.userid && membership.story_id === this.state.currentStory.id);
+        //only add a new member if user isn't already a member
+        if (!member) {
+          this.addMembership();        
+        }
 
       } else {
         this.setState({
