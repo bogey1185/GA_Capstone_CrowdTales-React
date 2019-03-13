@@ -4,6 +4,7 @@
   width: 50vw;
   min-width: 400px;
   padding: 75px;
+  cursor: pointer;
 }
 
 .containertop {
@@ -19,7 +20,6 @@
 .containerbot {
   font-family: 'Noto Serif JP', serif;
   font-size: 1.2em;
-  cursor: pointer;
   display: flex;
   flex-direction: column;
 }

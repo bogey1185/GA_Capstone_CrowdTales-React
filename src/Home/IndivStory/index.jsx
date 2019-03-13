@@ -10,11 +10,11 @@ const IndivStory = (props) => {
 
   return (
     <div>
-      <div className="storyContainer">
+      <div className="storyContainer" onClick={props.handleNav.bind(null, '/story', {currentStoryNum: props.story.id})}>
         <div className="containertop">
           <p>By: {props.story.username} - Posted: {newdate}</p>
         </div>
-        <div className="containerbot" onClick={props.handleNav.bind(null, '/story', {currentStoryNum: props.story.id})}>  
+        <div className="containerbot">  
           <div className="title-box">
               <p>{props.story.title}</p>
           </div>
