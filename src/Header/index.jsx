@@ -12,6 +12,7 @@ const Header = (props) => {
       <div className="navbar">
         <div className="navlink" onClick={props.handleNav.bind(null, '/', null)}>Home</div>
         {props.state.username ? <div className="navlink" onClick={props.handleNav.bind(null, '/create', null)}>Create Story</div> : null}
+        {props.state.username ? <div className="navlink" onClick={props.handleNav.bind(null, '/myaccount', null)}>My Account</div> : null}
         {props.state.username ? null : <div className="navlink" onClick={props.handleNav.bind(null, '/login', null)}>Login</div>}
         {props.state.username ? null : <div className="navlink" onClick={props.handleNav.bind(null, '/register', null)}>Register</div>}
         {props.state.username ? <div className="navlink" onClick={props.handleLogout}>Logout</div> : null}

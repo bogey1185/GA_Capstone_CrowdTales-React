@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import history from '../history';
 import './index.css'
+import IndStory from './IndStory';
 
 class MyAccount extends Component {
   
@@ -12,16 +13,21 @@ class MyAccount extends Component {
       errorMsg: '',
       createdStories: [],
       memberStories: [],
-      bookmarkStories: []      
+      bookmarkStories: [],
+      isLoaded: false      
     }
   }
 
-  async componentWillMount() {
-    //get data needed for page current story data
+  componentWillMount() {
+    this.setState(this.props.state);
+  }
+
+  async componentDidMount() {
     await this.setState(this.props.state);
     await this.getCreatedStories();
     await this.getMemberStories();
     await this.getBookmarkStories();
+    this.setState({isLoaded: true})
   }
 
   getCreatedStories = async () => {
@@ -38,7 +44,7 @@ class MyAccount extends Component {
       if (storiesRequest.status === 200) {
         //add user id and username to state for further use
         this.setState({
-          ...this.state,
+          // ...this.state,
           createdStories: parsedStoriesRequest
         })
 
@@ -69,7 +75,7 @@ class MyAccount extends Component {
       if (storiesRequest.status === 200) {
         //add user id and username to state for further use
         this.setState({
-          ...this.state,
+          // ...this.state,
           memberStories: parsedStoriesRequest
         })
 
@@ -100,7 +106,7 @@ class MyAccount extends Component {
       if (storiesRequest.status === 200) {
         //add user id and username to state for further use
         this.setState({
-          ...this.state,
+          // ...this.state,
           bookmarkStories: parsedStoriesRequest
         })
 
@@ -117,19 +123,44 @@ class MyAccount extends Component {
     }
   }
 
+  renderContent = () => {
+    const generateStoryList = (list) => {
+      return(
+        list.map((story) => {
+          return ( 
+            <div key={story.id}>
+              <IndStory story={story} handleNav={this.props.handleNav}/>
+            </div>
+          )
+        })
+      )
+    };
+
+    const creates = generateStoryList(this.state.createdStories.stories);
+    const members = generateStoryList(this.state.memberStories.memberships);
+    const marks = generateStoryList(this.state.bookmarkStories.bookmarks);
+    
+    return (
+      <div className="outerMyAcct">
+        <div className="myaccountlist">
+          <h1>Created Stories</h1>
+            {creates}
+          <h1>Memberships</h1>
+            {members}
+          <h1>Bookmarks</h1>
+            {marks}
+        </div>
+      </div>
+    )
+  }
+
 
   render() {
-    console.log(this.state, 'MY ACCOUNT STATE')
-
-    // const date = new Date(this.state.currentStory.date)
-    // const newdate = date.toLocaleDateString();
-    // const details = this.state.currentStory;
 
     return (
-
-      <h1>working</h1>
-
-
+      <div>
+        {this.state.isLoaded ? this.renderContent() : null}
+      </div>   
     )
   }
 }

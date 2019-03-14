@@ -7,6 +7,7 @@ import Home from './Home';
 import Create from './CreateStory';
 import ShowStory from './ShowStory';
 import Header from './Header';
+import MyAccount from './MyAccount';
 import history from './history';
 
 
@@ -325,8 +326,6 @@ class App extends Component {
 
   render() {
 
-    console.log(this.state, 'THIS IS APP STATE');
-
     return (
       <div className="App">
         <div className="header">
@@ -340,6 +339,7 @@ class App extends Component {
             <Route exact path="/login" render={() => <Login state={this.state} handleLogin={this.handleLogin}/>} />
             <Route exact path="/create" render={() => <Create state={this.state} handleCreate={this.handleCreate}/>} />
             <Route exact path="/story" render={() => <ShowStory state={this.state} handleNav={this.handleNav} getStories={this.getStories} />} />
+            <Route exact path="/myaccount" render={() => <MyAccount state={{userid: this.state.userid, username: this.state.username}} handleNav={this.handleNav}/>} />
             <Route component={ My404 } />
           </Switch>
         </main>

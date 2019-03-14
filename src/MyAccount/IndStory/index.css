@@ -1,0 +1,38 @@
+.indcontainertop {
+  height: 3vh;
+  border-bottom: 1px solid rgb(219,224,229);
+  font-family: 'Noto Serif JP', serif;
+  display: flex;
+  justify-content: space-between;
+}
+
+.container-top p {
+  font-size: .7em;
+}
+
+#storyStatusComp {
+  color: green;
+}
+
+.outerIndStory {
+  display: flex;
+  justify-content: center;
+}
+
+.publish {
+  background-color: rgb(0, 121, 211);
+  width: 75px;
+  text-align: center;
+  padding: ;
+  border: 1px solid rgb(219,224,229);
+  border-radius: 10px;
+  font-size: .7em;
+  color: white;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.publish:hover {
+  background-color: white;
+  color: black;
+}

@@ -1,0 +1,25 @@
+.indStoryContainer {
+  background-color: white;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  width: 50vw;
+  padding: 20px;
+  min-width: 440px;
+
+}
+
+.myaccountlist h1 {
+  width: 50vw;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 440px;
+  margin: 5px;
+}
+
+.outerMyAcct {
+  display: flex;
+  justify-content: center;
+}

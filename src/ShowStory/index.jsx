@@ -27,7 +27,6 @@ class ShowStory extends Component {
   }
 
   componentWillMount() {
-    console.log('WILL MOUNT');
     //get current story data
     this.getCurrentStory();
     this.setState(this.props.state);
@@ -572,7 +571,7 @@ class ShowStory extends Component {
     const currentStoryContent = this.state.allContent.content.filter(content => content.story_id === this.state.currentStory.id);
     
     currentStoryContent.sort((a, b) => (a.id > b.id) ? 1 : -1)
-    console.log('sorting');
+
     this.setState({
       currentContent: currentStoryContent
     })
@@ -585,8 +584,6 @@ class ShowStory extends Component {
   }
 
   render() {
-    console.log(this.state, 'SHOW STATE')
-    console.log(this.props, "SHOW PROPS")
 
     const date = new Date(this.state.currentStory.date)
     const newdate = date.toLocaleDateString();
