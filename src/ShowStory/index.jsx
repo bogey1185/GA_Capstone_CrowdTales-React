@@ -202,13 +202,6 @@ class ShowStory extends Component {
     }
   }
 
-
-    //update bookmark list
-
-    //rerun managebookmark 
-  
-
-
     //------------------------------//
     //                              //  
     //    Queue management          //
@@ -460,10 +453,10 @@ class ShowStory extends Component {
       }
       //recieve response from server and parse from json
       const parsedRequest = await requestContent.json();
-      // if create successful, sort them by status and add to local state
+      // if create successful, set state
+
       if (requestContent.status === 200) {
         this.setState({
-          // ...this.state,
           allContent: parsedRequest
         })
 
@@ -577,6 +570,9 @@ class ShowStory extends Component {
 
   getCurrentStoryContent = () => {
     const currentStoryContent = this.state.allContent.content.filter(content => content.story_id === this.state.currentStory.id);
+    
+    currentStoryContent.sort((a, b) => (a.id > b.id) ? 1 : -1)
+    console.log('sorting');
     this.setState({
       currentContent: currentStoryContent
     })
