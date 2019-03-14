@@ -17,6 +17,7 @@
 .outerIndStory {
   display: flex;
   justify-content: center;
+  flex-direction: column;
 }
 
 .publish {
@@ -26,7 +27,7 @@
   padding: ;
   border: 1px solid rgb(219,224,229);
   border-radius: 10px;
-  font-size: .7em;
+  font-size: .9em;
   color: white;
   margin-top: 5px;
   cursor: pointer;
@@ -35,4 +36,12 @@
 .publish:hover {
   background-color: white;
   color: black;
+}
+
+.button {
+  margin-bottom: 5px;
+  background-color: white;
+  width: 50vw;
+  padding: 0 20px 20px 20px;
+  min-width: 440px;
 }

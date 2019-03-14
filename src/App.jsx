@@ -35,6 +35,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    console.log('HIT');
     this.getStories();
   }
 
@@ -314,10 +315,15 @@ class App extends Component {
     // history.push. This also gives me access to app state when redirecting. 
     // Further with optional 2nd arg I can change app state before I redirect!
   handleNav = (arg1, arg2) => {
-    if (arg2) {
+    if (arg2 === 'reset') {
+      this.getStories();
+    } else {
       this.setState(arg2)
     }
-    history.push(`${arg1}`)
+
+    if (arg1) {
+      history.push(`${arg1}`)
+    }
   }
 
   //--------------------------------------------//

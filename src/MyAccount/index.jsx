@@ -123,13 +123,81 @@ class MyAccount extends Component {
     }
   }
 
+  publishStory = async (id) => {
+    try {
+      const getStory = await fetch(`${process.env.REACT_APP_PATH}/api/v1/stories/${id}`);
+      
+      const parsedStory = await getStory.json();
+
+      const updatedStory = {
+          ...parsedStory,
+          status: 'completed'
+        }
+
+      // //update the story per the above object
+      const updateRequest = await fetch(`${process.env.REACT_APP_PATH}/api/v1/stories/${id}`, {
+        method: 'PUT',
+        credentials: 'include',
+        body: JSON.stringify(updatedStory),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      const parsedUpdateRequest = await updateRequest.json();
+
+      console.log(parsedUpdateRequest, 'PARSE U');
+
+      // if create successful, return to login page
+      if (updateRequest.status === 200) {
+        console.log(this.state.createdStories, 'CREATED STOREIS');
+        const newCreatedStories = this.state.createdStories.stories.map(story => {
+          if (story.id === parsedUpdateRequest.id) {
+            return parsedUpdateRequest
+          } else {
+            return story
+          }
+        })
+
+        this.setState({
+          ...this.state,
+          createdStories: {stories: newCreatedStories}, 
+          isLoaded: false
+        })
+        this.resetLoaded();
+        this.props.handleNav(null, 'reset');
+
+      } else {
+        //if create unsuccessful because username taken, update
+        //state with error message so it can render!
+        this.setState({
+          errorMsg: 'Username taken. Please try again.'
+        })
+      } 
+      
+          
+    } catch (err) {
+      console.log(err);
+      return(err);
+    
+    }
+
+
+  }
+
+  resetLoaded = () => {
+    this.setState({
+      isLoaded: true
+    })
+  }
+
   renderContent = () => {
     const generateStoryList = (list) => {
       return(
         list.map((story) => {
           return ( 
             <div key={story.id}>
-              <IndStory story={story} handleNav={this.props.handleNav}/>
+              <IndStory story={story} handleNav={this.props.handleNav} publishStory={this.publishStory}/>
             </div>
           )
         })

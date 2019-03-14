@@ -22,10 +22,10 @@ const IndStory = (props) => {
           <div id="myacctprompt" className="prompt-box">
             <p>{props.story.text}</p>
           </div>
-          <div className="button">
-            {props.story.story_id ? null : <div className="publish">Publish</div>}
-          </div>
         </div>
+      </div>
+      <div className="button" onClick={props.publishStory.bind(null, props.story.id)}>
+        {props.story.story_id ? null : <div className="publish">Publish</div>}
       </div>
     </div>
   )

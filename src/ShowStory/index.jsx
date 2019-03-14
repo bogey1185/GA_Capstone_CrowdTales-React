@@ -623,7 +623,7 @@ class ShowStory extends Component {
                     || details.status === 'end vote' || details.status === 'publish vote' ? <p><b>Current Writer:</b></p> : null}
                   {details.status === 'in progress' || details.status === 'content vote'
                     || details.status === 'end vote' || details.status === 'publish vote' ? <p>{details.currentContrib}</p> : null}
-                  {details.status === 'completed' ? <p><b>Publish</b></p> : null}
+                  {details.status === 'completed' ? <p><b>Published</b></p> : null}
 
                 </div>
                 {this.state.userid && this.state.contrib ? 
