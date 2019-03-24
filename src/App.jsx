@@ -19,7 +19,7 @@ const My404 = () => {
   )
 }
 
-class App extends Component {
+class App extends React.Component {
 
   constructor() {
     super();
