@@ -1,10 +1,10 @@
 {
   "name": "crowdtales-react",
   "version": "0.1.0",
-  // "engines": {
-  //   "node": "11.8.0",
-  //   "npm": "6.7.0"
-  // },
+  "engines": {
+    "node": "11.8.0",
+    "npm": "6.7.0"
+  },
   "private": true,
   "dependencies": {
     "dotenv": "^7.0.0",
